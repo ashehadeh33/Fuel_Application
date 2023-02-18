@@ -23,9 +23,12 @@
         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
     </div>
     <br />
-    <button type="submit" class="btn btn-submit">Login</button>
+    <button type="submit" class="btn btn-primary">Login</button>
+    @* <a asp-controller="Account" asp-action="Register"><button type="button" class="btn btn-primary">Register</button></a> *@
+    <a class="btn btn-primary" asp-controller="Account" asp-action="Register">Register</a>
+@* 
     <br /><br />
-    <p>New here? <a asp-controller="Account" asp-action="Register">Register</a>.</p>
+    <p>New here? <a asp-controller="Account" asp-action="Register">Register</a>.</p> *@
 }
 
 <p>@Html.ValidationSummary()</p>
