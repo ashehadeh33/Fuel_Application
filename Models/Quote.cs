@@ -20,5 +20,3 @@ public class Quote
     [DisplayFormat(DataFormatString = "{0:C}")]
     public decimal TotalAmountDue { get; set; }
 }
-
-#test
