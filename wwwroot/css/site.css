@@ -1,0 +1,54 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.navbar {
+  background-color: #4CAF50 !important;
+  color: white !important;
+  font-size: 18px !important;
+}
+
+.navbar-brand {
+  color: white !important;
+  font-size: 30px !important;
+}
+
+.form-group {
+  margin-top: 20px;
+}
+.form-control {
+  padding: 8px;
+  font-size: 15px;
+}
+.btn-submit {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.brand-tit{
+  color: #ffffff !important;
+}
+
+th{
+  color: #4CAF50 !important;
+}

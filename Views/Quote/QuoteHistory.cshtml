@@ -1,0 +1,27 @@
+@model List<Quote>
+
+<h2 class="text-center mt-5 mb-5">Fuel Quote History</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Gallons Requested</th>
+            <th>Delivery Address</th>
+            <th>Delivery Date</th>
+            <th>Suggested Price Per Gallon</th>
+            <th>Total Amount Due</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var quote in Model)
+        {
+            <tr>
+                <td>@quote.GallonsRequested</td>
+                <td>@quote.DeliveryAddress</td>
+                <td>@quote.DeliveryDate</td>
+                <td>@quote.SuggestedPricePerGallon</td>
+                <td>@quote.TotalAmountDue</td>
+            </tr>
+        }
+    </tbody>
+</table>
