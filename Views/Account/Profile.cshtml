@@ -3,54 +3,69 @@
 <h2 class="text-center mt-5">Create Profile</h2>
 
 <div class="row">
-<div class="col-md-6 offset-md-3">
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+    <div class="col-md-6 offset-md-3">
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.FullName)
-        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.FullName)
-    </div>
+        <form method="post">
+            <button asp-controller="Account" asp-action="Profile">Click Me</button>
+        </form>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Address1)
-        @Html.TextBoxFor(m => m.Address1, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Address1)
     </div>
-        <div class="form-group">
-        @Html.LabelFor(m => m.Address2)
-        @Html.TextBoxFor(m => m.Address2, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Address2)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.City)
-        @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.City)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.State)
-        @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.State)
-    </div>
+</div>
 
     @* 
-    <div class="form-group">
-        @Html.LabelFor(m => m.State)
-        @Html.DropDownListFor(m => m.State, (IEnumerable<SelectListItem>)ViewBag.StateList, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.State)
-    </div> *@
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Zipcode)
-        @Html.TextBoxFor(m => m.Zipcode, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Zipcode)
+        <div class="form-group">
+            @Html.LabelFor(m => m.FullName)
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FullName)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address1)
+            @Html.TextBoxFor(m => m.Address1, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Address1)
+        </div>
+            <div class="form-group">
+            @Html.LabelFor(m => m.Address2)
+            @Html.TextBoxFor(m => m.Address2, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Address2)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.City)
+            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.City)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.State)
+            @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.State)
+        </div>
+
+        
+        
+        <div class="form-group">
+            @Html.LabelFor(m => m.State)
+            @Html.DropDownListFor(m => m.State, (IEnumerable<SelectListItem>)ViewBag.StateList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.State)
+        </div>
+            
+
+        <!--<div class="form-group">
+            @Html.LabelFor(m => m.Zipcode)
+            @Html.TextBoxFor(m => m.Zipcode, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Zipcode)
+        </div>
+        <br />
+        <button type="submit" class="btn btn-submit">Save</button>
+    }
+
+            
     </div>
-    <br />
-    <button type="submit" class="btn btn-submit">Save</button>
-}
 </div>
-</div>
+
+*@
