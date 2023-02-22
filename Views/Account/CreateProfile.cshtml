@@ -1,5 +1,9 @@
 ﻿@model Profile
 
+@{
+    ViewBag.Title = "Create Profile";
+}
+
 <form asp-controller="Account" asp-action="CreateProfile" method="post" class="mt-3">
     <div class="form-group row">
         <label asp-for="FullName" class="col-sm-2 col-form-label"></label>
