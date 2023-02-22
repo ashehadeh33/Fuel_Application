@@ -69,6 +69,13 @@ namespace qenergy.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult CreateProfile()
+        {
+            Profile profile = new Profile();
+            return View(profile);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Profile(Profile profile)

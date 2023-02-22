@@ -35,7 +35,7 @@ body {
   padding: 8px;
   font-size: 15px;
 }
-.btn-submit {
+.btn-submit, .btn-primary {
   padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
@@ -43,6 +43,10 @@ body {
   border: none;
   border-radius: 5px;
   margin-top: 20px;
+}
+.btn-submit:hover, .btn-primary:hover {
+  /* color:black; */
+  background-color: rgb(64, 136, 67);
 }
 
 .brand-tit{
