@@ -6,11 +6,33 @@
 
 <h2 class="text-center mt-5">Profile Information</h2>
 
+<div>
+    <div>
+        <h3 class="col-sm-2 col-form-label text-">Full name:</h3>
+    </div>
+    <div>
+        <h3 class="col-sm-2 col-form-label text-">Address 1:</h3>
+    </div>
+    <div>
+        <h3 class="col-sm-2 col-form-label text-">Address 2:</h3>
+    </div>
+    <div>
+        <h3 class="col-sm-2 col-form-label text-">City:</h3>
+    </div>
+    <div>
+        <h3 class="col-sm-2 col-form-label text-">State:</h3>
+    </div>
+    <div>
+        <h3 class="col-sm-2 col-form-label text-">Zipcode:</h3>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-6 offset-md-3">
 
         <form method="post">
-            <button asp-controller="Account" asp-action="Profile">Click Me</button>
+            @*<button asp-controller="Account" asp-action="Profile">Edit Profile</button>*@
+            <button type="submit" class="btn btn-primary">Edit Profile</button>
         </form>
 
     </div>
