@@ -56,7 +56,7 @@ namespace qenergy.Controllers
                 Users.Add(user);
 
                 // Redirect to profile page
-                return RedirectToAction("Profile", "Account");
+                return RedirectToAction("CreateProfile", "Account");
             }
 
             return View(user);
