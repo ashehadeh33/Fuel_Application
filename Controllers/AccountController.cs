@@ -66,13 +66,14 @@ namespace qenergy.Controllers
         public ActionResult Profile()
         {
             // ViewBag.StateList = new SelectList(GetStateList(), "Value", "Text");
-
+            
             return View();
         }
 
         public ActionResult EditProfile()
         {
-            return View();
+            Profile profile = new Profile();
+            return View(profile);
         }
 
         [HttpGet]

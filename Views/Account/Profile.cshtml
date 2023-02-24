@@ -8,31 +8,32 @@
 
 <div>
     <div>
-        <h3 class="col-sm-2 col-form-label text-">Full name:</h3>
+        <h3 class="col-sm-5 col-form-label text-">Full name: <span>NAME</span></h3>
     </div>
     <div>
-        <h3 class="col-sm-2 col-form-label text-">Address 1:</h3>
+        <h3 class="col-sm-5 col-form-label text-">Address 1: <span>ADDRESS</span></h3>
     </div>
     <div>
-        <h3 class="col-sm-2 col-form-label text-">Address 2:</h3>
+        <h3 class="col-sm-5 col-form-label text-">Address 2: <span>ADDRESS 2 (OPTIONAL)</span></h3>
     </div>
     <div>
-        <h3 class="col-sm-2 col-form-label text-">City:</h3>
+        <h3 class="col-sm-5 col-form-label text-">City: <span>CITY</span></h3>
     </div>
     <div>
-        <h3 class="col-sm-2 col-form-label text-">State:</h3>
+        <h3 class="col-sm-5 col-form-label text-">State: <span>STATE</span></h3>
     </div>
     <div>
-        <h3 class="col-sm-2 col-form-label text-">Zipcode:</h3>
+        <h3 class="col-sm-5 col-form-label text-">Zipcode: <span>ZIPCODE</span></h3>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-6 ">
 
         <form method="post">
             @*<button asp-controller="Account" asp-action="Profile">Edit Profile</button>*@
-            <button type="submit" class="btn btn-primary">Edit Profile</button>
+            <button asp-controller="Account" asp-action="EditProfile" class="btn btn-primary">Edit Profile</button>
+            @*<button type="submit" class="btn btn-primary">Edit Profile</button>*@
         </form>
 
     </div>
