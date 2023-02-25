@@ -56,7 +56,7 @@ namespace qenergy.Controllers
                 Users.Add(user);
 
                 // Redirect to profile page
-                return RedirectToAction("CreateProfile", "Account");
+                return RedirectToAction("Profile", "Account");
             }
 
             return View(user);
@@ -66,14 +66,7 @@ namespace qenergy.Controllers
         public ActionResult Profile()
         {
             // ViewBag.StateList = new SelectList(GetStateList(), "Value", "Text");
-            
             return View();
-        }
-
-        public ActionResult EditProfile()
-        {
-            Profile profile = new Profile();
-            return View(profile);
         }
 
         [HttpGet]
