@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 public class Profile
 {
     [Required(ErrorMessage = "Full Name is required.")]
-    [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_J*$]", ErrorMessage = "Please enter text")]
+    [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_J*$]*", ErrorMessage = "Please enter text")]
     [StringLength(50, ErrorMessage = "Full Name cannot be longer than 50 characters.")]
     [Display(Name = "Full Name")]
     public string FullName { get; set; }
@@ -18,7 +18,7 @@ public class Profile
 
     [Required(ErrorMessage = "City is required.")]
     [StringLength(100, ErrorMessage = "City cannot be longer than 100 characters.")]
-    [RegularExpression(@"^[a-zA-Z]", ErrorMessage = "Please enter text")]
+    [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_J*$]*", ErrorMessage = "Please enter text")]
     public string City { get; set; }
 
     [Required(ErrorMessage = "State is required.")]
@@ -27,7 +27,7 @@ public class Profile
     [Required]
     [StringLength(9)]
     //[RegularExpression(@"^\d{5}(?:[-\s]\d{4})?$", ErrorMessage = "Invalid Zipcode format.")]
-    [RegularExpression(@"\d{5,9}", ErrorMessage = "Please enter 5-9 digits")]
+    [RegularExpression(@"^(\d{5}\d{4})|^(\d{5})", ErrorMessage = "Please enter 5-9 digits")]
     public string Zipcode { get; set; }
 
     public List<SelectListItem> States { get; } = new List<SelectListItem>
