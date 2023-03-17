@@ -14,7 +14,7 @@ public class Profile
     public string Address1 { get; set; }
 
     [StringLength(100, ErrorMessage = "Address 2 cannot be longer than 100 characters.")]
-    public string Address2 { get; set; }
+    public string? Address2 { get; set; }
 
     [Required(ErrorMessage = "City is required.")]
     [StringLength(100, ErrorMessage = "City cannot be longer than 100 characters.")]
