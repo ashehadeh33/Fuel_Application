@@ -12,7 +12,7 @@ public class Quote
 
     [Required]
     [DataType(DataType.Date)]
-    public DateTime DeliveryDate { get; set; }
+    public Nullable<DateTime> DeliveryDate { get; set; }
 
     [DisplayFormat(DataFormatString = "{0:C}")]
     public decimal SuggestedPricePerGallon { get; set; }
