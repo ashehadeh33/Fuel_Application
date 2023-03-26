@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 public class Profile
 {
     [Required(ErrorMessage = "Full Name is required.")]
-    [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_J*$]*", ErrorMessage = "Please enter text")]
+    [RegularExpression(@"^[a-zA-Z ,.'-]+$", ErrorMessage = "Please enter text")]
     [StringLength(50, ErrorMessage = "Full Name cannot be longer than 50 characters.")]
     [Display(Name = "Full Name")]
     public string FullName { get; set; }
@@ -14,11 +14,11 @@ public class Profile
     public string Address1 { get; set; }
 
     [StringLength(100, ErrorMessage = "Address 2 cannot be longer than 100 characters.")]
-    public string Address2 { get; set; }
+    public string? Address2 { get; set; }
 
     [Required(ErrorMessage = "City is required.")]
     [StringLength(100, ErrorMessage = "City cannot be longer than 100 characters.")]
-    [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_J*$]*", ErrorMessage = "Please enter text")]
+    [RegularExpression(@"^[a-zA-Z .]+$", ErrorMessage = "Please enter text")]
     public string City { get; set; }
 
     [Required(ErrorMessage = "State is required.")]
