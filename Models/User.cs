@@ -5,6 +5,7 @@ namespace qenergy.Models
 {
     public class User
     {
+        [Key]
         public int Id { get; set; } // Unique identifier and primary key for database
         [Required]
         public string Username { get; set; }

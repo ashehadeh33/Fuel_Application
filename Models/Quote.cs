@@ -4,6 +4,7 @@ namespace qenergy.Models
 {
     public class Quote
     {
+        [Key]
         public int Id { get; set; } // Unique identifier and primary key for database
 
         [Required]
