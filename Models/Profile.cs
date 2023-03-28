@@ -1,36 +1,38 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-public class Profile
+namespace qenergy.Models
 {
-    [Required(ErrorMessage = "Full Name is required.")]
-    [RegularExpression(@"^[a-zA-Z ,.'-]+$", ErrorMessage = "Please enter text")]
-    [StringLength(50, ErrorMessage = "Full Name cannot be longer than 50 characters.")]
-    [Display(Name = "Full Name")]
-    public string FullName { get; set; }
+    public class Profile
+    {
+        [Required(ErrorMessage = "Full Name is required.")]
+        [RegularExpression(@"^[a-zA-Z ,.'-]+$", ErrorMessage = "Please enter text")]
+        [StringLength(50, ErrorMessage = "Full Name cannot be longer than 50 characters.")]
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
 
-    [Required(ErrorMessage = "Address 1 is required.")]
-    [StringLength(100, ErrorMessage = "Address 1 cannot be longer than 100 characters.")]
-    public string Address1 { get; set; }
+        [Required(ErrorMessage = "Address 1 is required.")]
+        [StringLength(100, ErrorMessage = "Address 1 cannot be longer than 100 characters.")]
+        public string Address1 { get; set; }
 
-    [StringLength(100, ErrorMessage = "Address 2 cannot be longer than 100 characters.")]
-    public string? Address2 { get; set; }
+        [StringLength(100, ErrorMessage = "Address 2 cannot be longer than 100 characters.")]
+        public string? Address2 { get; set; }
 
-    [Required(ErrorMessage = "City is required.")]
-    [StringLength(100, ErrorMessage = "City cannot be longer than 100 characters.")]
-    [RegularExpression(@"^[a-zA-Z .]+$", ErrorMessage = "Please enter text")]
-    public string City { get; set; }
+        [Required(ErrorMessage = "City is required.")]
+        [StringLength(100, ErrorMessage = "City cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z .]+$", ErrorMessage = "Please enter text")]
+        public string City { get; set; }
 
-    [Required(ErrorMessage = "State is required.")]
-    public string State { get; set; }
+        [Required(ErrorMessage = "State is required.")]
+        public string State { get; set; }
 
-    [Required]
-    [StringLength(9)]
-    //[RegularExpression(@"^\d{5}(?:[-\s]\d{4})?$", ErrorMessage = "Invalid Zipcode format.")]
-    [RegularExpression(@"^(\d{5}\d{4})|^(\d{5})", ErrorMessage = "Please enter 5-9 digits")]
-    public string Zipcode { get; set; }
+        [Required]
+        [StringLength(9)]
+        //[RegularExpression(@"^\d{5}(?:[-\s]\d{4})?$", ErrorMessage = "Invalid Zipcode format.")]
+        [RegularExpression(@"^(\d{5}\d{4})|^(\d{5})", ErrorMessage = "Please enter 5-9 digits")]
+        public string Zipcode { get; set; }
 
-    public List<SelectListItem> States { get; } = new List<SelectListItem>
+        public List<SelectListItem> States { get; } = new List<SelectListItem>
         {
             new SelectListItem() {Text="Alabama", Value="AL"},
             new SelectListItem() { Text="Alaska", Value="AK"},
@@ -84,4 +86,6 @@ public class Profile
             new SelectListItem() { Text="Wisconsin", Value="WI"},
             new SelectListItem() { Text="Wyoming", Value="WY"}
         };
+    }
 }
+
