@@ -1,7 +1,7 @@
 using qenergy.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace qenery.Models
+namespace qenergy.Models
 {
     public class User
     {
