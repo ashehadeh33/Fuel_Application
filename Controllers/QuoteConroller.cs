@@ -4,6 +4,7 @@ using System.Collections.Generic;
 // using System.Web.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using qenergy.Models;
 
 public class QuoteController : Controller
 {
