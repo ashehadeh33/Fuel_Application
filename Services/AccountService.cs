@@ -27,6 +27,12 @@ namespace qenergy.Services
                 .AsNoTracking()
                 .ToList();
         }
+        public IEnumerable<Profile> GetAllProfiles()
+        {
+            return _context.Profiles
+                .AsNoTracking()
+                .ToList();
+        }
 
         // The Include extensions method takes a lambda expression to specify that the Toppings and Sauce navigation properties are to be included in the result. Without this, EF Core will return null for those properties
         // The SingleOrDefault method returns a pizza that matches the lambda expression. -if no records match, null is returned -if multiple records match, an exception is thrown -the lambda expression describes records where the Id prop == id parameter
@@ -51,6 +57,20 @@ namespace qenergy.Services
                 .AsNoTracking()
                 .SingleOrDefault(q => q.Id == id);
         }
+        public Profile? GetProfileById(int id)
+        {
+            return _context.Profiles
+                .Include(p => p.userId)
+                .Include(p => p.FullName)
+                .Include(p => p.Address1)
+                .Include(p => p.Address2)
+                .Include(p => p.FullName)
+                .Include(p => p.City)
+                .Include(p => p.State)
+                .Include(p => p.Zipcode)
+                .AsNoTracking()
+                .SingleOrDefault(p => p.Id == id);
+        }
 
         // newUser is assumed to be a valid object. EF Core doesn't do data validation, so any validation must be handled by the ASP.NET Core runtime or user code
         // The Add method adds the newUser entity to EF Core's object graph 
@@ -74,6 +94,7 @@ namespace qenergy.Services
         }
 
         // References to an existing User is created using Find. Find is an optimized method to query records by their primary key. Find serches the local entity graph first before querying the database
+        // newProfile is added to Profiles table and newProfile.userId get assigned to userId
         // The User.profile prop is set to the newProfile object
         // An Update method call is unnecessary because EF Core detects that we set the Sauce property on Pizza
         // The SaveChanges method instructs EFCore to persist the object changes to the database
@@ -84,19 +105,30 @@ namespace qenergy.Services
             {
                 throw new InvalidOperationException("User does not exist");
             }
+            _context.Profiles.Add(newProfile);
+            newProfile.userId = userId;
+
             userToUpdate.profile = newProfile;
 
             _context.SaveChanges();
         }
 
         // Find retrieves a User by the primary key (in this case, id)
+        // Finds and retrieves profile if user exists and checks if there is a profile made
+        // will delete profile if a profile exists for the user
         // Remove method removes the userToDelete entity in EF Core's object graph
         // SaveChanges instructs EF Core to persist the object changes to the database.
         public void DeleteUserById(int id)
         {
             var userToDelete = _context.Users.Find(id);
+            
             if (userToDelete is not null)
             {
+                var profileToDelete = _context.Profiles.Find(userToDelete.profile);
+                if (profileToDelete is not null)
+                {
+                    _context.Profiles.Remove(profileToDelete);
+                }
                 _context.Users.Remove(userToDelete);
                 _context.SaveChanges();
             }
@@ -107,6 +139,16 @@ namespace qenergy.Services
             if (quoteToDelete is not null)
             {
                 _context.Quotes.Remove(quoteToDelete);
+                _context.SaveChanges();
+            }
+        }
+        // Will only delete profile and not the user attached to it
+        public void DeleteProfileById(int id)
+        {
+            var profileToDelete = _context.Profiles.Find(id);
+            if (profileToDelete is not null)
+            {
+                _context.Profiles.Remove(profileToDelete);
                 _context.SaveChanges();
             }
         }
