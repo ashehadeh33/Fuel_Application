@@ -8,6 +8,9 @@ namespace qenergy.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        public int userId { get; set; }
+
         [Required(ErrorMessage = "Full Name is required.")]
         [RegularExpression(@"^[a-zA-Z ,.'-]+$", ErrorMessage = "Please enter text")]
         [StringLength(50, ErrorMessage = "Full Name cannot be longer than 50 characters.")]
