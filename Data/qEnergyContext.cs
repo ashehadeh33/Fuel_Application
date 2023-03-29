@@ -18,6 +18,7 @@ namespace qenergy.Data
         // Tables will be created by DbSet<type> name = Set<type>()
         public DbSet<User> Users => Set<User>(); // Users table
         public DbSet<Quote> Quotes => Set<Quote>(); // Quotes table
+        public DbSet<Profile> Profiles => Set<Profile>(); // Profiles table
     }
 
 }
