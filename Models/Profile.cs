@@ -1,10 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace qenergy.Models
 {
     public class Profile
     {
+        [Key]
+        public int Id { get; set; }
         [Required(ErrorMessage = "Full Name is required.")]
         [RegularExpression(@"^[a-zA-Z ,.'-]+$", ErrorMessage = "Please enter text")]
         [StringLength(50, ErrorMessage = "Full Name cannot be longer than 50 characters.")]
@@ -32,6 +35,7 @@ namespace qenergy.Models
         [RegularExpression(@"^(\d{5}\d{4})|^(\d{5})", ErrorMessage = "Please enter 5-9 digits")]
         public string Zipcode { get; set; }
 
+        [NotMapped]
         public List<SelectListItem> States { get; set; }
 
         //public List<SelectListItem> States { get; } = new List<SelectListItem>
