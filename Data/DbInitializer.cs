@@ -19,7 +19,7 @@ namespace qenergy.Data
 
             var adminUser = new User
             {
-                Id = 1,
+                
                 Username = "Admin",
                 Password = "Password",
                 profile = new Profile
@@ -33,7 +33,7 @@ namespace qenergy.Data
             };
             var andresUser = new User
             {
-                Id = 2,
+                
                 Username = "Andres",
                 Password = "Password",
                 profile = new Profile
@@ -48,7 +48,7 @@ namespace qenergy.Data
 
             Quote adminQuote = new Quote
             {
-                Id = 1,
+                
                 customerId = 1,
                 GallonsRequested = 12,
                 DeliveryAddress = adminUser.profile.Address1,
@@ -58,7 +58,7 @@ namespace qenergy.Data
             };
             Quote andresQuote = new Quote
             {
-                Id = 2,
+                
                 customerId = 2,
                 GallonsRequested = 3,
                 DeliveryAddress = andresUser.profile.Address1,
@@ -68,7 +68,7 @@ namespace qenergy.Data
             };
             Quote andresQuote2 = new Quote
             {
-                Id = 3,
+                
                 customerId = 2,
                 GallonsRequested = 4,
                 DeliveryAddress = andresUser.profile.Address1,
