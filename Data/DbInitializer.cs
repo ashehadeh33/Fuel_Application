@@ -7,7 +7,7 @@ namespace qenergy.Data
     // both DbInitializer class and Initialize method are defined as static
     public static class DbInitializer
     {
-        public static void Initialize(qEnergyContext context) // accepts a PizzaContext as a parameter
+        public static void Initialize(qEnergyContext context) // accepts a qEnergyContext as a parameter
         {
 
             if (context.Users.Any()
