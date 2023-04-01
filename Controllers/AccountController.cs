@@ -65,10 +65,10 @@ namespace qenergy.Controllers
                 }
 
                 // Add user to list of registered users
-                _service.CreateUser(user);
+                User? newUserWithId = _service.CreateUser(user);
 
-                // Redirect to profile page
-                return RedirectToAction("CreateProfile", "Account");
+                // Redirect to profile page with newUserId
+                return RedirectToAction("CreateProfile", "Account", new { userId = newUserWithId?.Id});
             }
 
             return View(user);
@@ -156,6 +156,7 @@ namespace qenergy.Controllers
             User? _userToBindTo = _service.GetUserById(userId);
             if (_userToBindTo == null)
             {
+                ModelState.AddModelError("", "User not found");
                 System.Console.WriteLine("User not found in db, returning to view of Register");
                 return RedirectToAction("Register", "Account");
             }
@@ -171,7 +172,19 @@ namespace qenergy.Controllers
             return View(profile);
         }
 
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int userId)
+        {
+            _service.DeleteUserById(userId);
+            if (_service.GetUserById(userId) == null)
+            {
+                ModelState.AddModelError("", "User still in database");
+                System.Console.WriteLine("User still in db");
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
+        }
 
         public ActionResult Logout()
         {
