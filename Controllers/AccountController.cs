@@ -151,12 +151,18 @@ namespace qenergy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Profile(Profile profile)
+        public ActionResult Profile(int userId, Profile profile)
         {
+            User? _userToBindTo = _service.GetUserById(userId);
+            if (_userToBindTo == null)
+            {
+                System.Console.WriteLine("User not found in db, returning to view of Register");
+                return RedirectToAction("Register", "Account");
+            }
             if (ModelState.IsValid)
             {
                 // Save to database or other processing here
-                Profiles.Add(profile);
+                _service.bindProfileToUser(profile, userId);
 
                 return RedirectToAction("QuoteHistory", "Quote");
             }
@@ -165,20 +171,7 @@ namespace qenergy.Controllers
             return View(profile);
         }
 
-        //private List<SelectListItem> GetStateList()
-        //{
-        //    var stateList = new List<SelectListItem>
-        //    {
-        //        new SelectListItem { Value = "AL", Text = "Alabama" },
-        //        new SelectListItem { Value = "AK", Text = "Alaska" },
-        //        new SelectListItem { Value = "AZ", Text = "Arizona" },
-        //        new SelectListItem { Value = "AR", Text = "Arkansas" },
-        //        new SelectListItem { Value = "CA", Text = "California" },
-        //        // Add more states as needed
-        //    };
-
-        //    return stateList;
-        //}
+        
 
         public ActionResult Logout()
         {
