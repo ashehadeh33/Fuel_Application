@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using qenergy.Models;
+using qenergy.Services;
 
 namespace qenergy.Controllers
 {
@@ -16,6 +17,13 @@ namespace qenergy.Controllers
         };
 
         private static List<Profile> Profiles = new List<Profile>{};
+
+        AccountService _service;
+
+        public AccountController(AccountService service)
+        {
+            _service = service;
+        }
 
 
         [HttpGet]
@@ -179,7 +187,9 @@ namespace qenergy.Controllers
 
         private bool IsValidUser(User user)
         {
-            return Users.Exists(u => u.Username == user.Username && u.Password == user.Password);
+            IEnumerable<User> _Users = _service.GetAllUsers();
+            return _Users.Any(u => u.Username == user.Username && u.Password == PasswordEncryption.EncryptPasswordBase64(user.Password));
+
         }
     }
 }
