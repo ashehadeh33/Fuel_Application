@@ -11,7 +11,8 @@ namespace qenergy.Data
         {
 
             if (context.Users.Any()
-                && context.Quotes.Any())
+                && context.Quotes.Any()
+                && context.Profiles.Any())
             {
                 return; // DB has been seeded
                         // if there are no records in any of the 2 tables, Users or Quotes, then this is false and we create this "test/default" contents
