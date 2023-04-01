@@ -57,14 +57,15 @@ namespace qenergy.Controllers
             if (ModelState.IsValid)
             {
                 // Check if user already exists
-                if (Users.Any(u => u.Username == user.Username))
+                IEnumerable<User> _Users = _service.GetAllUsers();
+                if (_Users.Any(u => u.Username == user.Username))
                 {
                     ModelState.AddModelError("", "Username already taken");
                     return View(user);
                 }
 
                 // Add user to list of registered users
-                Users.Add(user);
+                _service.CreateUser(user);
 
                 // Redirect to profile page
                 return RedirectToAction("CreateProfile", "Account");
