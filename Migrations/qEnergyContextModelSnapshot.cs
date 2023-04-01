@@ -123,11 +123,13 @@ namespace qenergy.Migrations
 
             modelBuilder.Entity("qenergy.Models.Profile", b =>
                 {
-                    b.HasOne("qenergy.Models.User", null)
+                    b.HasOne("qenergy.Models.User", "user")
                         .WithOne("profile")
                         .HasForeignKey("qenergy.Models.Profile", "userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("qenergy.Models.User", b =>

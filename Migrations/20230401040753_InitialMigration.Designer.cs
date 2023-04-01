@@ -12,7 +12,7 @@ using qenergy.Data;
 namespace qenergy.Migrations
 {
     [DbContext(typeof(qEnergyContext))]
-    [Migration("20230329172458_InitialMigration")]
+    [Migration("20230401040753_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -126,11 +126,13 @@ namespace qenergy.Migrations
 
             modelBuilder.Entity("qenergy.Models.Profile", b =>
                 {
-                    b.HasOne("qenergy.Models.User", null)
+                    b.HasOne("qenergy.Models.User", "user")
                         .WithOne("profile")
                         .HasForeignKey("qenergy.Models.Profile", "userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("qenergy.Models.User", b =>
