@@ -2,6 +2,7 @@
 using qenergy.Data;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace qenergy.Services
 {
     public class AccountService
@@ -80,6 +81,7 @@ namespace qenergy.Services
             // TODO: make sure a profile is created and tied to this UserID later or something
             // maybe if the user creates a user but exits before creating a profile, then the next time they log in, it will redirect to the createProfile page again
             // for now, i think we can keep it like this just so that we can create a database with certain columns
+            newUser.Password = PasswordEncryption.EncryptPasswordBase64(newUser.Password);
             _context.Users.Add(newUser);
             _context.SaveChanges();
 
