@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using qenergy.Models;
 using qenergy.Services;
@@ -89,9 +90,11 @@ namespace qenergy.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateProfile()
+        public ActionResult CreateProfile(int userId)
         {
             Profile profile = new Profile();
+            System.Console.WriteLine($"In createprofile get with {userId}");
+            profile.userId = userId;
             profile.States = new List<SelectListItem>
             {
                 new SelectListItem() {Text="Alabama", Value="AL"},
@@ -151,19 +154,25 @@ namespace qenergy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Profile(int userId, Profile profile)
+        public ActionResult CreateProfile(int userId, Profile profile)
         {
             User? _userToBindTo = _service.GetUserById(userId);
+            System.Console.WriteLine($"In createProfile POST with userId = {userId}");
             if (_userToBindTo == null)
             {
                 ModelState.AddModelError("", "User not found");
                 System.Console.WriteLine("User not found in db, returning to view of Register");
                 return RedirectToAction("Register", "Account");
             }
+            //ModelState.Remove("States");
+            ModelState["States"].ValidationState = ModelValidationState.Valid;
+            ModelState["user"].ValidationState = ModelValidationState.Valid;
             if (ModelState.IsValid)
             {
                 // Save to database or other processing here
+                System.Console.WriteLine("Saving User to db...");
                 _service.bindProfileToUser(profile, userId);
+                System.Console.WriteLine("Save successful");
 
                 return RedirectToAction("QuoteHistory", "Quote");
             }
@@ -195,7 +204,7 @@ namespace qenergy.Controllers
         private bool IsValidUser(User user)
         {
             IEnumerable<User> _Users = _service.GetAllUsers();
-            return _Users.Any(u => u.Username == user.Username && u.Password == PasswordEncryption.EncryptPasswordBase64(user.Password));
+            return _Users.Any(u => u.Username == user.Username && u.Password == PasswordEncryption.getHash(user.Password));
 
         }
     }
