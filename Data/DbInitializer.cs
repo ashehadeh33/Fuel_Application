@@ -7,11 +7,12 @@ namespace qenergy.Data
     // both DbInitializer class and Initialize method are defined as static
     public static class DbInitializer
     {
-        public static void Initialize(qEnergyContext context) // accepts a PizzaContext as a parameter
+        public static void Initialize(qEnergyContext context) // accepts a qEnergyContext as a parameter
         {
 
             if (context.Users.Any()
-                && context.Quotes.Any())
+                && context.Quotes.Any()
+                && context.Profiles.Any())
             {
                 return; // DB has been seeded
                         // if there are no records in any of the 2 tables, Users or Quotes, then this is false and we create this "test/default" contents

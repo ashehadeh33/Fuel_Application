@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace qenergy.Models
 {
+    // Dependent (child)
     public class Profile
     {
         [Key]
         public int Id { get; set; }
+        public int userId { get; set; } // Required foreign key property (gathered when user creates profile)
         [Required]
-        public int userId { get; set; }
+        public User user { get; set; } // Required reference navigation to principal (parent)
 
         [Required(ErrorMessage = "Full Name is required.")]
         [RegularExpression(@"^[a-zA-Z ,.'-]+$", ErrorMessage = "Please enter text")]

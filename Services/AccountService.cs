@@ -2,6 +2,7 @@
 using qenergy.Data;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace qenergy.Services
 {
     public class AccountService
@@ -34,16 +35,17 @@ namespace qenergy.Services
                 .ToList();
         }
 
-        // The Include extensions method takes a lambda expression to specify that the Toppings and Sauce navigation properties are to be included in the result. Without this, EF Core will return null for those properties
-        // The SingleOrDefault method returns a pizza that matches the lambda expression. -if no records match, null is returned -if multiple records match, an exception is thrown -the lambda expression describes records where the Id prop == id parameter
+        // The Include extensions method takes a lambda expression to specify that the profile navigation property is to be included in the result. Without this, EF Core will return null for this property
+        // The SingleOrDefault method returns a user that matches the lambda expression. -if no records match, null is returned -if multiple records match, an exception is thrown -the lambda expression describes records where the Id prop == id parameter
         public User? GetUserById(int id)
         {
-            return _context.Users
-                .Include(u => u.Username)
-                .Include(u => u.Password)
-                .Include(u => u.profile)
-                .AsNoTracking()
-                .SingleOrDefault(u => u.Id == id);
+            //return _context.Users
+            //    .Include(u => u.Username)
+            //    .Include(u => u.Password)
+            //    .Include(u => u.profile)
+            //    .AsNoTracking()
+            //    .SingleOrDefault(u => u.Id == id);
+            return _context.Users.SingleOrDefault(u => u.Id == id);
         }
         public Quote? GetQuoteById(int id)
         {
@@ -80,6 +82,7 @@ namespace qenergy.Services
             // TODO: make sure a profile is created and tied to this UserID later or something
             // maybe if the user creates a user but exits before creating a profile, then the next time they log in, it will redirect to the createProfile page again
             // for now, i think we can keep it like this just so that we can create a database with certain columns
+            newUser.Password = PasswordEncryption.getHash(newUser.Password);
             _context.Users.Add(newUser);
             _context.SaveChanges();
 

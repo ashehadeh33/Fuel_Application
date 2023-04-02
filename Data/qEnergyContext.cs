@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using qenergy.Models;
 
 namespace qenergy.Data
@@ -19,6 +20,20 @@ namespace qenergy.Data
         public DbSet<User> Users => Set<User>(); // Users table
         public DbSet<Quote> Quotes => Set<Quote>(); // Quotes table
         public DbSet<Profile> Profiles => Set<Profile>(); // Profiles table
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.profile)
+                .WithOne(p => p.user)
+                .HasForeignKey<Profile>(p => p.userId);
+            //modelBuilder.Entity<Profile>()
+            //    .HasOne(p => p.user)
+            //    .WithOne(u => u.profile)
+            //    .HasForeignKey<User>(u => u.Id);
+        }
     }
 
 }

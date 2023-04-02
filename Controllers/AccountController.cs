@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using qenergy.Models;
+using qenergy.Services;
 
 namespace qenergy.Controllers
 {
@@ -9,13 +11,14 @@ namespace qenergy.Controllers
     {
         // TODO: Add AccountService and inject it into consturctor to add, create, delete Users and profiles
 
-        private static List<User> Users = new List<User>
-        {
-            new User { Username = "user1", Password = "password1" },
-            new User { Username = "user2", Password = "password2" }
-        };
-
         private static List<Profile> Profiles = new List<Profile>{};
+
+        AccountService _service;
+
+        public AccountController(AccountService service)
+        {
+            _service = service;
+        }
 
 
         [HttpGet]
@@ -49,17 +52,18 @@ namespace qenergy.Controllers
             if (ModelState.IsValid)
             {
                 // Check if user already exists
-                if (Users.Any(u => u.Username == user.Username))
+                IEnumerable<User> _Users = _service.GetAllUsers();
+                if (_Users.Any(u => u.Username == user.Username))
                 {
                     ModelState.AddModelError("", "Username already taken");
                     return View(user);
                 }
 
                 // Add user to list of registered users
-                Users.Add(user);
+                User? newUserWithId = _service.CreateUser(user);
 
-                // Redirect to profile page
-                return RedirectToAction("CreateProfile", "Account");
+                // Redirect to profile page with newUserId
+                return RedirectToAction("CreateProfile", "Account", new { userId = newUserWithId?.Id});
             }
 
             return View(user);
@@ -80,9 +84,11 @@ namespace qenergy.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateProfile()
+        public ActionResult CreateProfile(int userId)
         {
             Profile profile = new Profile();
+            System.Console.WriteLine($"In createprofile get with {userId}");
+            profile.userId = userId;
             profile.States = new List<SelectListItem>
             {
                 new SelectListItem() {Text="Alabama", Value="AL"},
@@ -142,12 +148,25 @@ namespace qenergy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Profile(Profile profile)
+        public ActionResult CreateProfile(int userId, Profile profile)
         {
+            User? _userToBindTo = _service.GetUserById(userId);
+            System.Console.WriteLine($"In createProfile POST with userId = {userId}");
+            if (_userToBindTo == null)
+            {
+                ModelState.AddModelError("", "User not found");
+                System.Console.WriteLine("User not found in db, returning to view of Register");
+                return RedirectToAction("Register", "Account");
+            }
+            //ModelState.Remove("States");
+            ModelState["States"].ValidationState = ModelValidationState.Valid;
+            ModelState["user"].ValidationState = ModelValidationState.Valid;
             if (ModelState.IsValid)
             {
                 // Save to database or other processing here
-                Profiles.Add(profile);
+                System.Console.WriteLine("Saving User to db...");
+                _service.bindProfileToUser(profile, userId);
+                System.Console.WriteLine("Save successful");
 
                 return RedirectToAction("QuoteHistory", "Quote");
             }
@@ -156,20 +175,19 @@ namespace qenergy.Controllers
             return View(profile);
         }
 
-        //private List<SelectListItem> GetStateList()
-        //{
-        //    var stateList = new List<SelectListItem>
-        //    {
-        //        new SelectListItem { Value = "AL", Text = "Alabama" },
-        //        new SelectListItem { Value = "AK", Text = "Alaska" },
-        //        new SelectListItem { Value = "AZ", Text = "Arizona" },
-        //        new SelectListItem { Value = "AR", Text = "Arkansas" },
-        //        new SelectListItem { Value = "CA", Text = "California" },
-        //        // Add more states as needed
-        //    };
-
-        //    return stateList;
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int userId)
+        {
+            _service.DeleteUserById(userId);
+            if (_service.GetUserById(userId) == null)
+            {
+                ModelState.AddModelError("", "User still in database");
+                System.Console.WriteLine("User still in db");
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
+        }
 
         public ActionResult Logout()
         {
@@ -179,7 +197,9 @@ namespace qenergy.Controllers
 
         private bool IsValidUser(User user)
         {
-            return Users.Exists(u => u.Username == user.Username && u.Password == user.Password);
+            IEnumerable<User> _Users = _service.GetAllUsers();
+            return _Users.Any(u => u.Username == user.Username && u.Password == PasswordEncryption.getHash(user.Password));
+
         }
     }
 }

@@ -5,9 +5,18 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using qenergy.Models;
+using qenergy.Services;
 
 public class QuoteController : Controller
 {
+    AccountService _service;
+
+    public QuoteController(AccountService service)
+    {
+        _service = service;
+        
+    }
+
 
     public static List<Quote> quotes = new List<Quote>
     {
@@ -52,10 +61,11 @@ public class QuoteController : Controller
         return View(quote);
     }
 
+    [HttpGet]
     public ActionResult QuoteHistory()
     {
         // Pass the quotes list to the view
-        return View(quotes);
+        return View(_service.GetAllQuotes());
     }
 
     // GET: FuelDelivery/Confirmation
