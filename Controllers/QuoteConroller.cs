@@ -16,13 +16,6 @@ public class QuoteController : Controller
         _service = service;
         
     }
-
-
-    public static List<Quote> quotes = new List<Quote>
-    {
-        new Quote { GallonsRequested = 20, DeliveryAddress = "234 St Mark", DeliveryDate = DateTime.Parse("2/11/2023"), SuggestedPricePerGallon = 14, TotalAmountDue= 126},
-        new Quote { GallonsRequested = 40, DeliveryAddress = "8693 St Laurent", DeliveryDate = DateTime.Parse("2/11/2022"), SuggestedPricePerGallon = 36, TotalAmountDue= 477},
-    };
   
     // GET: FuelDelivery/Create
     [HttpGet]
