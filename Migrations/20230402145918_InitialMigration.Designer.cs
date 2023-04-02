@@ -12,7 +12,7 @@ using qenergy.Data;
 namespace qenergy.Migrations
 {
     [DbContext(typeof(qEnergyContext))]
-    [Migration("20230401040753_InitialMigration")]
+    [Migration("20230402145918_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
