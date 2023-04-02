@@ -11,8 +11,6 @@ namespace qenergy.Controllers
     {
         // TODO: Add AccountService and inject it into consturctor to add, create, delete Users and profiles
 
-        private static List<Profile> Profiles = new List<Profile>{};
-
         AccountService _service;
 
         public AccountController(AccountService service)
