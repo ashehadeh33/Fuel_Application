@@ -42,9 +42,10 @@ public class QuoteController : Controller
             // Calculate the total amount due
             quote.TotalAmountDue = quote.GallonsRequested * quote.SuggestedPricePerGallon;
 
-            
+
             // Save the fuel delivery request to the database
-            quotes.Add(quote);
+            _service.CreateQuote(quote);
+            //quotes.Add(quote);
 
             // Redirect the user to a confirmation page
             return RedirectToAction("QuoteHistory", "Quote");
