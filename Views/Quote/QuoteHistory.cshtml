@@ -9,6 +9,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>CustomerId</th>
             <th>Gallons Requested</th>
             <th>Delivery Address</th>
             <th>Delivery Date</th>
@@ -20,6 +21,7 @@
         @foreach (var quote in Model)
         {
             <tr>
+                <td>@quote.customerId</td>
                 <td>@quote.GallonsRequested</td>
                 <td>@quote.DeliveryAddress</td>
                 <td>@quote.DeliveryDate</td>
