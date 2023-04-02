@@ -25,10 +25,7 @@ public class QuoteController : Controller
         // Create a new fuel delivery request object
 
         // Pass the fuel delivery request object to the view
-        Quote q = new Quote();
-        q.DeliveryAddress = "123 Main St";
-        q.TotalAmountDue = 20;
-        q.SuggestedPricePerGallon = 4;
+        Quote q = _service.GetAllQuotes().ElementAt(0);
         return View(q);
     }
 
