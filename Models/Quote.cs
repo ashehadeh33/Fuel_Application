@@ -17,6 +17,12 @@ namespace qenergy.Models
         [DataType(DataType.Date)]
         public DateTime DeliveryDate { get; set; }
 
+        // Will have to reconfigure migrations - check later
+        // [Required]
+        // [DataType(DataType.Date)]
+        // public Nullable<DateTime> DeliveryDate { get; set; }
+
+
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal SuggestedPricePerGallon { get; set; }
 
