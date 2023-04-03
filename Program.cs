@@ -8,11 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AccountService>();
 
-
-// this registers PizzaContext with ASP.NET Core's dependency injection system
-// Specifies that Pizza Context will use the SQLite database provider
-// Defines a SQLite connection string that points to a local file, ContosoPizza.db
-//builder.Services.AddSqlite<PizzaContext>("Data Source=ContosoPizza.db");
 var connection = String.Empty;
 if (builder.Environment.IsDevelopment())
 {
