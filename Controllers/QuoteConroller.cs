@@ -4,15 +4,18 @@ using System.Collections.Generic;
 // using System.Web.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using qenergy.Models;
+using qenergy.Services;
 
 public class QuoteController : Controller
 {
+    AccountService _service;
 
-    public static List<Quote> quotes = new List<Quote>
+    public QuoteController(AccountService service)
     {
-        new Quote { GallonsRequested = 20, DeliveryAddress = "234 St Mark", DeliveryDate = DateTime.Parse("2/11/2023"), SuggestedPricePerGallon = 14, TotalAmountDue= 126},
-        new Quote { GallonsRequested = 40, DeliveryAddress = "8693 St Laurent", DeliveryDate = DateTime.Parse("2/11/2022"), SuggestedPricePerGallon = 36, TotalAmountDue= 477},
-    };
+        _service = service;
+        
+    }
   
     // GET: FuelDelivery/Create
     [HttpGet]
@@ -22,10 +25,7 @@ public class QuoteController : Controller
         // Create a new fuel delivery request object
 
         // Pass the fuel delivery request object to the view
-        Quote q = new Quote();
-        q.DeliveryAddress = "123 Main St";
-        q.TotalAmountDue = 20;
-        q.SuggestedPricePerGallon = 4;
+        Quote q = _service.GetAllQuotes().ElementAt(0);
         return View(q);
     }
 
@@ -39,9 +39,10 @@ public class QuoteController : Controller
             // Calculate the total amount due
             quote.TotalAmountDue = quote.GallonsRequested * quote.SuggestedPricePerGallon;
 
-            
+
             // Save the fuel delivery request to the database
-            quotes.Add(quote);
+            _service.CreateQuote(quote);
+            //quotes.Add(quote);
 
             // Redirect the user to a confirmation page
             return RedirectToAction("QuoteHistory", "Quote");
@@ -51,10 +52,11 @@ public class QuoteController : Controller
         return View(quote);
     }
 
+    [HttpGet]
     public ActionResult QuoteHistory()
     {
         // Pass the quotes list to the view
-        return View(quotes);
+        return View(_service.GetAllQuotes());
     }
 
     // GET: FuelDelivery/Confirmation
