@@ -49,29 +49,31 @@ namespace qenergy.Services
         }
         public Quote? GetQuoteById(int id)
         {
-            return _context.Quotes
-                .Include(q => q.customerId)
-                .Include(q => q.DeliveryAddress)
-                .Include(q => q.DeliveryDate)
-                .Include(q => q.GallonsRequested)
-                .Include(q => q.SuggestedPricePerGallon)
-                .Include(q => q.TotalAmountDue)
-                .AsNoTracking()
-                .SingleOrDefault(q => q.Id == id);
+            //return _context.Quotes
+            //    .Include(q => q.customerId)
+            //    .Include(q => q.DeliveryAddress)
+            //    .Include(q => q.DeliveryDate)
+            //    .Include(q => q.GallonsRequested)
+            //    .Include(q => q.SuggestedPricePerGallon)
+            //    .Include(q => q.TotalAmountDue)
+            //    .AsNoTracking()
+            //    .SingleOrDefault(q => q.Id == id);
+            return _context.Quotes.SingleOrDefault(q => q.Id == id);
         }
         public Profile? GetProfileById(int id)
         {
-            return _context.Profiles
-                .Include(p => p.userId)
-                .Include(p => p.FullName)
-                .Include(p => p.Address1)
-                .Include(p => p.Address2)
-                .Include(p => p.FullName)
-                .Include(p => p.City)
-                .Include(p => p.State)
-                .Include(p => p.Zipcode)
-                .AsNoTracking()
-                .SingleOrDefault(p => p.Id == id);
+            //return _context.Profiles
+            //    .Include(p => p.userId)
+            //    .Include(p => p.FullName)
+            //    .Include(p => p.Address1)
+            //    .Include(p => p.Address2)
+            //    .Include(p => p.FullName)
+            //    .Include(p => p.City)
+            //    .Include(p => p.State)
+            //    .Include(p => p.Zipcode)
+            //    .AsNoTracking()
+            //    .SingleOrDefault(p => p.Id == id);
+            return _context.Profiles.SingleOrDefault(p => p.Id == id);
         }
 
         // newUser is assumed to be a valid object. EF Core doesn't do data validation, so any validation must be handled by the ASP.NET Core runtime or user code
@@ -127,7 +129,7 @@ namespace qenergy.Services
             
             if (userToDelete is not null)
             {
-                var profileToDelete = _context.Profiles.Find(userToDelete.profile);
+                var profileToDelete = _context.Profiles.Find(userToDelete.profile.Id);
                 if (profileToDelete is not null)
                 {
                     _context.Profiles.Remove(profileToDelete);
