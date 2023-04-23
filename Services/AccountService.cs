@@ -45,7 +45,7 @@ namespace qenergy.Services
             //    .Include(u => u.profile)
             //    .AsNoTracking()
             //    .SingleOrDefault(u => u.Id == id);
-            return _context.Users.SingleOrDefault(u => u.Id == id);
+            return _context.Users.Include(u => u.profile).SingleOrDefault(u => u.Id == id);
         }
         public Quote? GetQuoteById(int id)
         {
@@ -59,6 +59,13 @@ namespace qenergy.Services
             //    .AsNoTracking()
             //    .SingleOrDefault(q => q.Id == id);
             return _context.Quotes.SingleOrDefault(q => q.Id == id);
+        }
+        public IEnumerable<Quote>? GetAllQuotesByUser(int userId)
+        {
+            return _context.Quotes
+                .AsNoTracking()
+                .Where(q => q.customerId == userId)
+                .ToList();
         }
         public Profile? GetProfileById(int id)
         {
