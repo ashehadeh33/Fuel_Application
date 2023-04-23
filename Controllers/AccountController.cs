@@ -83,8 +83,17 @@ namespace qenergy.Controllers
         public ActionResult Profile()
         {
             // ViewBag.StateList = new SelectList(GetStateList(), "Value", "Text");
-            
-            return View();
+
+            int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            User user = _service.GetUserById(userId);
+
+            if (user == null)
+            {
+                // user not logged in
+                return RedirectToAction("Login", "Account");
+            }
+
+            return View(user.profile);
         }
 
         public ActionResult EditProfile()
