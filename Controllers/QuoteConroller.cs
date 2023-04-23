@@ -24,8 +24,22 @@ public class QuoteController : Controller
         // Get the user's profile
         // Create a new fuel delivery request object
 
-        // Pass the fuel delivery request object to the view
-        Quote q = _service.GetAllQuotes().ElementAt(0);
+        // Get Session UserId variable
+        int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+        User user = _service.GetUserById(userId);
+
+        if (user == null)
+        {
+            // user not logged in, redirect to login
+            return RedirectToAction("Login", "Account");
+        }
+
+        Quote q = new Quote();
+        q.customerId = userId;
+        q.DeliveryAddress = user.profile.Address1; // grab the user address etc....
+
+        q.SuggestedPricePerGallon = 1.5M;
+
         return View(q);
     }
 
@@ -39,6 +53,8 @@ public class QuoteController : Controller
             // Calculate the total amount due
             quote.TotalAmountDue = quote.GallonsRequested * quote.SuggestedPricePerGallon;
 
+            // use Session variable to add customerId to created quote
+            quote.customerId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
 
             // Save the fuel delivery request to the database
             _service.CreateQuote(quote);
@@ -55,8 +71,41 @@ public class QuoteController : Controller
     [HttpGet]
     public ActionResult QuoteHistory()
     {
-        // Pass the quotes list to the view
-        return View(_service.GetAllQuotes());
+        //if (HttpContext.Session.GetString("Username") != null)
+        //{
+        //    ViewBag.User = HttpContext.Session.GetString("Username");
+
+        //    IEnumerable<Quote>? quotesByUser = _service.GetAllQuotesByUser(Convert.ToInt32(HttpContext.Session.GetString("UserId")));
+
+        //    if (quotesByUser.Any())
+        //    {
+        //        return View(quotesByUser.ToList());
+        //    }
+
+        //    // we must only show the quotes made by this user
+        //    //return View(_service.GetAllQuotes());
+        //}
+
+        //return View();
+
+        //// Pass the quotes list to the view
+        //return View(_service.GetAllQuotes());
+
+        int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+        User user = _service.GetUserById(userId);
+
+        if (user == null)
+        {
+            // user not logged in, redirect to login
+            return RedirectToAction("Login", "Account");
+        }
+
+        ViewBag.User = user.Username;
+
+        IEnumerable<Quote>? quotesByUser = _service.GetAllQuotesByUser(userId);
+
+        return View(quotesByUser?.ToList());
+        
     }
 
     // GET: FuelDelivery/Confirmation
