@@ -28,10 +28,18 @@ namespace qenergy.Controllers
         [HttpPost]
         public ActionResult Login(User user)
         {
-            if (IsValidUser(user))
+            // Authenticate user against auth provider, i.e. check our db using our service
+            int userId = IsValidUser(user);
+
+            if (userId != -1) // id was found
             {
+                // Create and store session variable to store the user's information
+                HttpContext.Session.SetString("Username", user.Username);
+
+                HttpContext.Session.SetString("UserId", userId.ToString());
+
                 // FormsAuthentication.SetAuthCookie(user.Username, false);
-                RedirectToAction("QuoteHistory", "Quote");
+                return RedirectToAction("QuoteHistory", "Quote");
             }
 
             ModelState.AddModelError("", "Invalid username or password");
@@ -59,6 +67,10 @@ namespace qenergy.Controllers
 
                 // Add user to list of registered users
                 User? newUserWithId = _service.CreateUser(user);
+
+                // Create session variable because we are "logged in"
+                HttpContext.Session.SetString("Username", user.Username);
+                HttpContext.Session.SetString("UserId", user.Id.ToString());
 
                 // Redirect to profile page with newUserId
                 return RedirectToAction("CreateProfile", "Account", new { userId = newUserWithId?.Id});
@@ -193,11 +205,15 @@ namespace qenergy.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        private bool IsValidUser(User user)
+        private int IsValidUser(User user)
         {
             IEnumerable<User> _Users = _service.GetAllUsers();
-            return _Users.Any(u => u.Username == user.Username && u.Password == PasswordEncryption.getHash(user.Password));
+            if (_Users.Any(u => u.Username == user.Username && u.Password == PasswordEncryption.getHash(user.Password)))
+            {
+                return _Users.FirstOrDefault(u => u.Username == user.Username && u.Password == PasswordEncryption.getHash(user.Password)).Id;
+            }
 
+            return -1;
         }
     }
 }
