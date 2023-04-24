@@ -10,10 +10,12 @@ using qenergy.Services;
 public class QuoteController : Controller
 {
     AccountService _service;
+    PricingService _pricingService;
 
-    public QuoteController(AccountService service)
+    public QuoteController(AccountService service, PricingService pricingService)
     {
         _service = service;
+        _pricingService = pricingService;
         
     }
   
@@ -37,8 +39,8 @@ public class QuoteController : Controller
         Quote q = new Quote();
         q.customerId = userId;
         q.DeliveryAddress = user.profile.Address1; // grab the user address etc....
+        q.DeliveryDate = DateTime.Now;
 
-        q.SuggestedPricePerGallon = 1.5M;
 
         return View(q);
     }
@@ -66,6 +68,54 @@ public class QuoteController : Controller
 
         // If the model state is invalid, return the view with the original fuel delivery request object
         return View(quote);
+    }
+
+    [HttpPost]
+    public JsonResult GetQuote(int gallons)
+    {
+        // Margin =  Current Price * (Location Factor - Rate History Factor + Gallons Requested Factor + Company Profit Factor)
+
+        int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+        User user = _service.GetUserById(userId);
+
+        double factor = 0.0;
+
+        // company profit factor
+        factor += 0.1;
+
+        // location factor
+        if (_pricingService.inTexas(user))
+        {
+            factor += 0.02;
+        }
+        else
+        {
+            factor += 0.04; // out of state
+        }
+
+        // rate history factor
+        if (_pricingService.hasQuoteHistory(user))
+        {
+            factor -= 0.01; // has history with us, no discount if its their first time
+        }
+
+        // gallons requested factor
+        if (gallons > 1000)
+        {
+            factor += 0.02;
+        }
+        else
+        {
+            factor += 0.03;
+        }
+
+        double margin = factor * 1.5;
+        double suggestedPrice = 1.50 + margin;
+        double totalAmount = gallons * suggestedPrice;
+
+       
+
+        return Json( new { suggestedPrice, totalAmount });
     }
 
     [HttpGet]
