@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<PricingService>();
 
 
 // this registers qEnergyContext with ASP.NET Core's dependency injection system
