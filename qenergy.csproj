@@ -23,7 +23,6 @@
     <None Remove="Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
     <Folder Include="Data\" />
   </ItemGroup>
 </Project>
