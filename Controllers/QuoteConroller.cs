@@ -78,44 +78,9 @@ public class QuoteController : Controller
         int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
         User user = _service.GetUserById(userId);
 
-        double factor = 0.0;
+        object data = _pricingService.getQuotes(user, gallons);
 
-        // company profit factor
-        factor += 0.1;
-
-        // location factor
-        if (_pricingService.inTexas(user))
-        {
-            factor += 0.02;
-        }
-        else
-        {
-            factor += 0.04; // out of state
-        }
-
-        // rate history factor
-        if (_pricingService.hasQuoteHistory(user))
-        {
-            factor -= 0.01; // has history with us, no discount if its their first time
-        }
-
-        // gallons requested factor
-        if (gallons > 1000)
-        {
-            factor += 0.02;
-        }
-        else
-        {
-            factor += 0.03;
-        }
-
-        double margin = factor * 1.5;
-        double suggestedPrice = 1.50 + margin;
-        double totalAmount = gallons * suggestedPrice;
-
-       
-
-        return Json( new { suggestedPrice, totalAmount });
+        return Json( data );
     }
 
     [HttpGet]
