@@ -14,7 +14,7 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.GallonsRequested, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.GallonsRequested, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1" } })
+        @Html.EditorFor(model => model.GallonsRequested, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1", id = "gallons" } })
         @Html.ValidationMessageFor(model => model.GallonsRequested, "", new { @class = "text-danger" })
     </div>
 
@@ -32,17 +32,40 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.SuggestedPricePerGallon, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.SuggestedPricePerGallon, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly", value = Model.SuggestedPricePerGallon} })
+        @Html.EditorFor(model => model.SuggestedPricePerGallon, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly", value = Model.SuggestedPricePerGallon, id = "SuggestedPrice"} })
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.TotalAmountDue, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.TotalAmountDue, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly", value = Model.TotalAmountDue} })
+        @Html.EditorFor(model => model.TotalAmountDue, new { htmlAttributes = new { @class = "form-control", type = "text", @readonly = "readonly", value = Model.TotalAmountDue, id = "TotalDue"} })
     </div>
     <br />
     <div class="form-group">
-        <input type="submit" value="Submit" class="btn btn-submit" />
+        <input type="button" onclick="getQuote()" id="btnGetQuote" value="Get Quote" class="btn btn-primary" />
+        <input type="submit" id="btnSaveQuote" value="Submit" class="btn btn-submit" />
     </div>
 }
 </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        function getQuote() {
+
+            $.ajax({
+                url: "/Quote/GetQuote",
+                data: { "gallons": $("#gallons").val() },
+                type: "POST",
+                success: function (data) {
+                    $("#SuggestedPrice").val(data.suggestedPrice);
+                    $("#TotalDue").val(data.totalAmount);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                }
+            });
+
+        }
+
+    </script>
+}
