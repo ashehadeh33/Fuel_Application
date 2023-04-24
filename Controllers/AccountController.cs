@@ -203,6 +203,13 @@ namespace qenergy.Controllers
         [HttpGet]
         public ActionResult CreateProfile(int userId)
         {
+            User user = _service.GetUserById(userId);
+
+            if (user == null)
+            {
+                // user not logged in
+                return RedirectToAction("Login", "Account");
+            }
             Profile profile = new Profile();
             System.Console.WriteLine($"In createprofile get with {userId}");
             profile.userId = userId;
@@ -309,6 +316,8 @@ namespace qenergy.Controllers
         public ActionResult Logout()
         {
             // FormsAuthentication.SignOut();
+            HttpContext.Session.Remove("Username");
+            HttpContext.Session.Remove("UserId");
             return RedirectToAction("Login", "Account");
         }
 
