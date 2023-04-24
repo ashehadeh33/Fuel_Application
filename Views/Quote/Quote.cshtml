@@ -26,7 +26,7 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+        @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", type = "date", id = "date" } })
         @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
     </div>
 
@@ -41,8 +41,8 @@
     </div>
     <br />
     <div class="form-group">
-        <input type="button" onclick="getQuote()" id="btnGetQuote" value="Get Quote" class="btn btn-primary" />
-        <input type="submit" id="btnSaveQuote" value="Submit" class="btn btn-submit" />
+        <input type="button" onclick="getQuote()" id="btnGetQuote" value="Get Quote" class="btn btn-submit" disabled="disabled" />
+        <input type="submit" id="btnSaveQuote" value="Submit" class="btn btn-submit" disabled="disabled" />
     </div>
 }
 </div>
@@ -66,6 +66,21 @@
             });
 
         }
+
+        $(document).ready(function() {
+            $('#gallons').on('input change', function() {
+                if ($(this).val() > 0) {
+                    $('#btnGetQuote').prop('disabled', false); // gallons has changed input > 0, we can get an estimate now
+                } else {
+                    $('#btnGetQuote').prop('disabled', true);
+                    $('#btnSaveQuote').prop('disabled', true);
+                }
+            });
+            $('#btnGetQuote').click( function () { 
+                $('#btnSaveQuote').prop('disabled', false); // Total has been filled, estimate has been made, we can save now
+                
+            });
+        });
 
     </script>
 }
