@@ -5,11 +5,11 @@
 }
 
 <h2 class="text-center mt-5 mb-5">Fuel Quote History</h2>
+<h2 class="text-center mt-5 mb-5">Welcome, @ViewBag.User</h2>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>CustomerId</th>
             <th>Gallons Requested</th>
             <th>Delivery Address</th>
             <th>Delivery Date</th>
@@ -18,16 +18,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var quote in Model)
+        @if (Model.Count() == 0)
         {
             <tr>
-                <td>@quote.customerId</td>
-                <td>@quote.GallonsRequested</td>
-                <td>@quote.DeliveryAddress</td>
-                <td>@quote.DeliveryDate</td>
-                <td>@quote.SuggestedPricePerGallon</td>
-                <td>@quote.TotalAmountDue</td>
+                <td colspan=5 align="center"><h3>No Quotes to Display</h3></td>
             </tr>
+        }
+        else {
+            foreach (var quote in Model) 
+            {
+                <tr>
+                    <td>@quote.GallonsRequested</td>
+                    <td>@quote.DeliveryAddress</td>
+                    <td>@quote.DeliveryDate</td>
+                    <td>@quote.SuggestedPricePerGallon</td>
+                    <td>@quote.TotalAmountDue</td>
+                </tr>
+            }
         }
     </tbody>
 </table>

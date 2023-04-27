@@ -7,12 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<PricingService>();
 
 
-// this registers PizzaContext with ASP.NET Core's dependency injection system
-// Specifies that Pizza Context will use the SQLite database provider
-// Defines a SQLite connection string that points to a local file, ContosoPizza.db
-//builder.Services.AddSqlite<PizzaContext>("Data Source=ContosoPizza.db");
+// this registers qEnergyContext with ASP.NET Core's dependency injection system
+// Specifies that qEnergyContext will use the SQL database provider
+// builder.Services.UseSqlServer<qEnergyContext>(connection string);
 var connection = String.Empty;
 if (builder.Environment.IsDevelopment())
 {
@@ -26,6 +26,11 @@ else
 
 builder.Services.AddDbContext<qEnergyContext>(options =>
     options.UseSqlServer(connection));
+
+// Add in Session Support
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -43,6 +48,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+// Add Session Support
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
