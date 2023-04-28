@@ -1,37 +1,15 @@
-﻿using qenergy.Data;
-using qenergy.Models;
+﻿using qenergy.Models;
+using qenergy.Services;
 
-namespace qenergy.Services
+
+//THIS FILE WAS ADDED TO TEST THE GETQUOTES FUNCTION IN THE ORIGINAL FILE
+namespace qenergy.Tests.Mocks
 {
-    public class PricingService
+    public class PricingServiceMock : PricingService
     {
-        private readonly AccountService _service;
-
-        public PricingService(AccountService service) // inject AccountService
+        public override bool hasQuoteHistory(User user)
         {
-            _service = service;
-        }
-
-        public PricingService() //constructor for testing
-        {
-        }
-
-        public virtual bool hasQuoteHistory(User user)
-        {
-            if (_service.GetAllQuotesByUser(user.Id).Count() > 0) // has quotes
-            {
-                return true;
-            }
-            return false;
-        }
-        
-        public bool inTexas(User user)
-        {
-            if (user.profile.State == "TX")
-            {
-                return true;
-            }
-            return false;
+            return true; // always return true
         }
 
         public object getQuotes(User user, int gallons)
@@ -70,8 +48,8 @@ namespace qenergy.Services
             }
 
             double margin = factor * 1.5;
-             suggestedPrice = 1.50 + margin;
-             totalAmount = gallons * suggestedPrice;
+            suggestedPrice = 1.50 + margin;
+            totalAmount = gallons * suggestedPrice;
 
             return new { suggestedPrice, totalAmount };
         }
