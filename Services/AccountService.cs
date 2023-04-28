@@ -45,7 +45,7 @@ namespace qenergy.Services
             //    .Include(u => u.profile)
             //    .AsNoTracking()
             //    .SingleOrDefault(u => u.Id == id);
-            return _context.Users.SingleOrDefault(u => u.Id == id);
+            return _context.Users.Include(u => u.profile).SingleOrDefault(u => u.Id == id);
         }
         public Quote? GetQuoteById(int id)
         {
@@ -59,6 +59,13 @@ namespace qenergy.Services
             //    .AsNoTracking()
             //    .SingleOrDefault(q => q.Id == id);
             return _context.Quotes.SingleOrDefault(q => q.Id == id);
+        }
+        public IEnumerable<Quote>? GetAllQuotesByUser(int userId)
+        {
+            return _context.Quotes
+                .AsNoTracking()
+                .Where(q => q.customerId == userId)
+                .ToList();
         }
         public Profile? GetProfileById(int id)
         {
@@ -101,7 +108,6 @@ namespace qenergy.Services
         // References to an existing User is created using Find. Find is an optimized method to query records by their primary key. Find serches the local entity graph first before querying the database
         // newProfile is added to Profiles table and newProfile.userId get assigned to userId
         // The User.profile prop is set to the newProfile object
-        // An Update method call is unnecessary because EF Core detects that we set the Sauce property on Pizza
         // The SaveChanges method instructs EFCore to persist the object changes to the database
         public void bindProfileToUser(Profile newProfile, int userId)
         {

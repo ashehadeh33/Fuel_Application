@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<PricingService>();
 
 var connection = String.Empty;
 if (builder.Environment.IsDevelopment())
@@ -21,6 +22,11 @@ else
 
 builder.Services.AddDbContext<qEnergyContext>(options =>
     options.UseSqlServer(connection));
+
+// Add in Session Support
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -38,6 +44,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+// Add Session Support
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
