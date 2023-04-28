@@ -65,6 +65,7 @@ namespace qenergy.Services
             double margin = factor * 1.5;
             double suggestedPrice = 1.50 + margin;
             double totalAmount = gallons * suggestedPrice;
+            totalAmount = Math.Round(totalAmount, 2);
 
             return new { suggestedPrice, totalAmount };
         }
