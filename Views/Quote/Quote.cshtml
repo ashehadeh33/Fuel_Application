@@ -69,7 +69,7 @@
 
         $(document).ready(function() {
             $('#gallons').on('input change', function() {
-                if ($(this).val() > 0) {
+                if ($(this).val() > 0 && $(this).val() < (Math.pow(2, 31) - 1)) {
                     $('#btnGetQuote').prop('disabled', false); // gallons has changed input > 0, we can get an estimate now
                 } else {
                     $('#btnGetQuote').prop('disabled', true);
