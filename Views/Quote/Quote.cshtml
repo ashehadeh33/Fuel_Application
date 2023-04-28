@@ -26,7 +26,8 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.DeliveryDate, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", type = "date", id = "date" } })
+        @*@Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", type = "date", id = "date" } })*@
+        <input asp-for="DeliveryDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" id="date"/>
         @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
     </div>
 
