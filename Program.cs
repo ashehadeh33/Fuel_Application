@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using qenergy.Data;
 using qenergy.Services;
 
@@ -9,16 +10,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<PricingService>();
 
-var connection = String.Empty;
-if (builder.Environment.IsDevelopment())
-{
-    builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
-    connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
-}
-else
-{
-    connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
-}
+//var connection = String.Empty;
+//if (builder.Environment.IsDevelopment())
+//{
+//    builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
+//    connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+//}
+//else
+//{
+//    connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
+//}
+string connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
 
 builder.Services.AddDbContext<qEnergyContext>(options =>
     options.UseSqlServer(connection));
