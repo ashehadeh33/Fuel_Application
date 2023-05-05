@@ -41,4 +41,7 @@ After creating a profile, you are redirected to your quote history page. Initial
 Creating a quote is simple, Users may only submit a quote once they get an estimate for the amount they request. Upon successful quote submission, User is redirected to show their quote history:
 <img width="1440" align="center" alt="Quote" src="https://user-images.githubusercontent.com/33458180/236546648-2ca452bf-08bf-4857-9c4c-aae1cb0a5157.gif" />
 
+You may also edit your profile to change your name or address
+<img width="1440" align="center" alt="Edit Profile" src="https://user-images.githubusercontent.com/33458180/236550418-499eb292-049a-4e95-98cb-915c36999d58.png" />
+
 ---
